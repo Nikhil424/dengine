@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>CLOUD</name>
+          <description>select your cloud provider
+		  WARNING: The we are in alfa for cloud provider google, hence all resources cannot be created for it</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---select-cloud---</string>
+              <string>aws</string>
+              <string>azure</string>
+              <string>google</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENV</name>
+          <description>Select the environment to create a network for it</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>MNGT</string>
+              <string>UAT</string>
+              <string>PROD</string>
+              <string>TEST</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>RESOURCE_GROUP</name>
+            <description>Enter your resource group name (This is exclusively for azure)</description>
+          <defaultValue/>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VPC_CIDR</name>
+            <description>Enter the CIDR block for your vpc,ex:192.168.10.0/16 </description>
+          <defaultValue>192.168.0.0/16</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SUBNET_CIDR</name>
+            <description>Enter the CIDR blocks for subnets separated by commas, ex:192.168.10.0/24,192.168.20.0/24,192.168.30.0/24</description>
+           <defaultValue>192.168.10.0/24,192.168.20.0/24</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd /var/lib/jenkins/chef-repo/
+knife dengine network create -n $ENV --cloud $CLOUD --vpc-cidr-block $VPC_CIDR --subnet-cidr-block $SUBNET_CIDR --resource-group-name $RESOURCE_GROUP</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

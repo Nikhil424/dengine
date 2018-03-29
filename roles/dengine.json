@@ -1,0 +1,18 @@
+{
+  "name": "dengine",
+  "description": "This a complete package of chef,splunk,sensu agents where all individual roles are embedded here",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine_chef]"
+  ],
+  "env_run_lists": {
+
+  }
+}

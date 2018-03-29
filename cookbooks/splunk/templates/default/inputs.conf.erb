@@ -1,0 +1,18 @@
+[default]
+host = <%= @hostname %>
+
+<% if @ssl['enable'] -%>
+[SSL]
+password = <%= @ssl['password'] %>
+requireClientCert = <%= @ssl['requireClientCert'] %>
+rootCA = <%= @ssl['cacert'] %>
+serverCert = <%= @ssl['servercert'] %>
+
+[splunktcp-ssl:<%= @port -%>]
+disabled = 0
+<% else -%>
+[splunktcp:<%= @port -%>]
+<% if @compressed -%>
+compressed = true
+<% end -%>
+<% end -%>

@@ -1,0 +1,52 @@
+{
+  "name": "enterprise",
+  "description": "Installs common libraries and resources for Chef server and add-ons",
+  "long_description": "enterprise cookbook\n===================\n\n[![Build Status](https://travis-ci.org/chef-cookbooks/enterprise-chef-common.svg?branch=master)](http://travis-ci.org/chef-cookbooks/enterprise-chef-common)\n\nThis cookbook provides common functionality needed for Chef server,\nPush jobs, Reporting, and other enterprise-grade Omnibus projects.\n\nYour omnibus project attributes should define the following attributes:\n\n    node['enterprise']['name']\n\nThis defaults to `private_chef` for back compat. If you are building\ntop-level (non add-on) project, set it to your project name.\n\nIn addition, you need to have:\n\n* `node[project_name]['install_path']` the install location for your\n  omnibus project (e.g. `/opt/chef-server`).\n\nOptional attributes are:\n\n* `node[project_name]['sysvinit_id']` an identifier used in\n    `/etc/inittab` (default is `'SV'`). Needs to be a unique (for the\n    file) sequence of 1-4 characters.\n* `node[project_name]['topology']` one of `standalone`, `tier`, or `ha`.\n* `node[project_name]['role']` either `backend` or `frontend`.\n* `node[project_name]['servers'][node_name]['bootstrap']` is used to\n  determine if the node is installation bootstrap server. Value is\n  treated as boolean.\n* `node[project_name]['keepalived']['dir']` directory for keepalived.\n\n## Recipes\n\n### runit\n\nSets the proper attributes to use runit and creates a runit supervisor to be\nused by component runit services.\n\n## Definitions\n\n### component_runit_service\n\nDefines a runit service.\n\n## Resources\n\n### component_runit_supervisor\n\nCreates a runit runsvdir process to monitor component runit processes.\n\n#### Parameters\n\n* `name` - The name of the project\n* `ctl_name` - Name of the command used to manage the services. Defaults to\n  `#{name}-ctl`.\n* `sysvinit_id - Two-letter prefix used to identify the service on\n  sysvinit-style systems. Defaults to `\"SV\"`.\n* `install_path` - Path where the project is installed.\n\n#### Actions\n\n* `:create` - Create the necessary files and start the runsvdir service.\n* `:delete` - Stop the services and the runsvdir service and remove the files.\n\n#### Providers\n\n* `Chef::Provider::ComponentRunitSupervisor::Systemd` - For systems using systemd.\n* `Chef::Provider::ComponentRunitSupervisor::Sysvinit` - For systems using sysvinit.\n* `Chef::Provider::ComponentRunitSupervisor::Upstart` - For systems using Upstart.\n\n## Testing\n\n[ChefDK](http://downloads.chef.io/chef-dk/) must be installed (version 0.5.1 at\nthe time of this writing.)\n\n### ChefSpec\n\nRun `chef exec rspec` to run ChefSpec examples.\n\n### Test Kitchen\n\nIntegration tests can be run with [Test Kitchen](http://kitchen.ci/).\n\n## Maintainers\n\nThis cookbook is maintained by Chef's Community Cookbook Engineering team. Our goal is to improve cookbook quality and to aid the community in contributing to cookbooks. To learn more about our team, process, and design goals see our [team documentation](https://github.com/chef-cookbooks/community_cookbook_documentation/blob/master/COOKBOOK_TEAM.MD). To learn more about contributing to cookbooks like this see our [contributing documentation](https://github.com/chef-cookbooks/community_cookbook_documentation/blob/master/CONTRIBUTING.MD), or if you have general questions about this cookbook come chat with us in #cookbok-engineering on the [Chef Community Slack](http://community-slack.chef.io/)\n\n## License\n\n\n**Copyright:** 2013-2017, Chef Software, Inc.\n\n```\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n```\n",
+  "maintainer": "Chef Software, Inc.",
+  "maintainer_email": "cookbooks@chef.io",
+  "license": "Apache-2.0",
+  "platforms": {
+    "redhat": ">= 0.0.0",
+    "oracle": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "scientific": ">= 0.0.0",
+    "fedora": ">= 0.0.0",
+    "amazon": ">= 0.0.0",
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+    "runit": "> 1.6.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.11.0",
+  "source_url": "https://github.com/chef-cookbooks/enterprise",
+  "issues_url": "https://github.com/chef-cookbooks/enterprise/issues",
+  "privacy": false,
+  "chef_versions": [
+    [
+      ">= 12.5.1"
+    ]
+  ],
+  "ohai_versions": [
+
+  ],
+  "gems": [
+
+  ]
+}

@@ -1,0 +1,136 @@
+knife google server create NAME -m MACHINE_TYPE -I IMAGE (options)
+    -D, --gce-additional-disks DISKS Names of additional disks, comma-separated, to attach to this server (NOTE: this will not create them)
+        --auth-timeout MINUTES       The maximum time in minutes to wait to for authentication over the transport to the node to succeed. The default value is 25 minutes.
+        --[no-]gce-auto-server-migrate
+                                     GCE can migrate your server to other hardware without downtime prior to periodic infrastructure maintenance, otherwise the server is terminated; enabled by default.
+        --[no-]gce-auto-server-restart
+                                     GCE can automatically restart your server if it is terminated for non-user-initiated reasons; enabled by default.
+        --[no-]gce-boot-disk-autodelete
+                                     Delete boot disk when server is deleted.
+        --gce-boot-disk-name DISK    Name of persistent boot disk; default is to use the server name
+        --gce-boot-disk-size SIZE    Size of the persistent boot disk between 10 and 10000 GB, specified in GB; default is '10' GB
+        --[no-]gce-boot-disk-ssd     Use pd-ssd boot disk; default is pd-standard boot disk
+        --bootstrap-curl-options OPTIONS
+                                     Add options to curl when install chef-client
+        --bootstrap-install-command COMMANDS
+                                     Custom command to install chef-client
+        --bootstrap-no-proxy [NO_PROXY_URL|NO_PROXY_IP]
+                                     Do not proxy locations for the node being bootstrapped; this option is used internally by Opscode
+        --bootstrap-protocol protocol
+                                     Protocol to bootstrap servers. options: winrm/ssh. For linux servers always use ssh.
+        --bootstrap-proxy PROXY_URL  The proxy server for the node being bootstrapped
+        --bootstrap-template TEMPLATE
+                                     Bootstrap Chef using a built-in or custom template. Set to the full path of an erb template or use one of the built-in templates.
+        --bootstrap-url URL          URL to a custom installation script
+        --bootstrap-vault-file VAULT_FILE
+                                     A JSON file with a list of vault(s) and item(s) to be updated
+        --bootstrap-vault-item VAULT_ITEM
+                                     A single vault and item to update as "vault:item"
+        --bootstrap-vault-json VAULT_JSON
+                                     A JSON string with the vault(s) and item(s) to be updated
+        --bootstrap-version VERSION  The version of Chef to install
+        --bootstrap-wget-options OPTIONS
+                                     Add options to wget when installing chef-client
+        --ca-trust-file CA_TRUST_FILE
+                                     The Certificate Authority (CA) trust file used for SSL transport
+        --[no-]gce-can-ip-forward    Allow server network forwarding
+    -N, --node-name NAME             The Chef node name for your new node
+        --chef-node-name-prefix PREFIX_FOR_NODE_NAME
+                                     The prefix for chef node name
+        --server-url URL             Chef Server URL
+        --chef-zero-host HOST        Host to start chef-zero on
+        --chef-zero-port PORT        Port (or port range) to start chef-zero on.  Port ranges like 1000,1010 or 8889-9999 will try all given ports until one works.
+    -k, --key KEY                    API Client Key
+        --[no-]color                 Use colored output, defaults to enabled
+    -c, --config CONFIG              The configuration file to use
+        --config-option OPTION=VALUE Override a single configuration option
+        --custom-attributes CUSTOM_ATTRIBUTES
+                                     Custom attributes to be passed to Fog.
+        --defaults                   Accept default values for all questions
+        --delete-server-on-failure   Destroy corresponding server in case of failure
+        --disable-editing            Do not open EDITOR, just accept the data as is
+    -d, --distro DISTRO              Bootstrap a distro using a template. [DEPRECATED] Use -t / --template option instead.
+    -e, --editor EDITOR              Set the editor to use for interactive commands
+    -E, --environment ENVIRONMENT    Set the Chef environment (except for in searches, where this will be flagrantly ignored)
+        --[no-]fips                  Enable fips mode
+    -j JSON_ATTRIBS,                 A JSON string to be added to the first run of chef-client
+        --json-attributes
+    -f, --flavor FLAVOR_ID           The flavor name or ID of server
+    -F, --format FORMAT              Which format to use for output
+        --forward-agent              Enable SSH agent forwarding
+        --gce-email EMAIL_ADDRESS    email address of the logged-in Google Cloud user; required for bootstrapping windows hosts
+        --gce-max-page-size NUMPAGES Maximum number of items per page to request for paginated listing requests, defaults to 100
+        --gce-max-pages NUMPAGES     Maximum number of pages to request for paginated listing requests, defaults to 20
+        --gce-project PROJECT        Name of the Google Cloud project to use
+    -Z, --gce-zone ZONE              Name of the Google Compute Engine zone to use
+        --hint HINT_NAME[=HINT_FILE] Specify Ohai Hint to be set on the bootstrap target.  Use multiple --hint options to specify multiple hints.
+        --[no-]host-key-verify       Verify host key, enabled by default.
+    -i IDENTITY_FILE,                The SSH identity file used for authentication
+        --identity-file
+    -I, --gce-image IMAGE            The Image for the server
+        --image-os-type IMAGE_OS_TYPE
+                                     The image os type. options [windows/linux]. Only required when cloud does not provide a way to identify image os
+        --gce-image-project IMAGE_PROJECT
+                                     The project-id containing the Image (debian-cloud, centos-cloud, etc)
+        --install-as-service         Install chef-client as service in windows machine
+        --keytab-file KEYTAB_FILE    The Kerberos keytab file used for authentication
+    -R KERBEROS_REALM,               The Kerberos realm used for authentication
+        --kerberos-realm
+    -S KERBEROS_SERVICE,             The Kerberos service used for authentication
+        --kerberos-service
+        --[no-]listen                Whether a local mode (-z) server binds to a port
+    -z, --local-mode                 Point knife commands at local repository instead of server
+    -m MACHINE_TYPE,                 The machine type of server (n1-highcpu-2, n1-highcpu-2-d, etc)
+        --gce-machine-type
+        --gce-metadata Key=Value[,Key=Value...]
+                                     Additional metadata for this server
+        --msi-url URL                Location of the Chef Client MSI. The default templates will prefer to download from this location. The MSI will be downloaded from chef.io if not provided.
+        --gce-network NETWORK        The network for this server; default is 'default'
+    -u, --user USER                  API Client Username
+        --node-ssl-verify-mode [peer|none]
+                                     Whether or not to verify the SSL cert for all HTTPS requests.
+        --[no-]node-verify-api-cert  Verify the SSL cert for HTTPS requests to the Chef server API.
+        --[no-]gce-preemptible       Create the instance as a preemptible instance, allowing GCE to shut it down at any time. Defaults to false.
+        --prerelease                 Install the pre-release chef gems
+        --print-after                Show the data after a destructive operation
+        --gce-public-ip IP_ADDRESS   EPHEMERAL or static IP address or NONE; default is 'EPHEMERAL'
+        --request-refresh-rate SECS  Number of seconds to sleep between each check of the request status, defaults to 2
+        --request-timeout SECS       Number of seconds to wait for a request to complete, defaults to 600
+    -r, --run-list RUN_LIST          Comma separated list of roles/recipes to apply
+    -s, --secret                     The secret key to use to encrypt data bag item values
+        --secret-file SECRET_FILE    A file containing the secret key to use to encrypt data bag item values
+        --server-create-timeout timeout
+                                     How long to wait until the server is ready; default is 600 seconds
+        --gce-service-account-name NAME
+                                     Service account name for this server, typically in the form of '123845678986@project.gserviceaccount.com'; default is 'default'
+        --gce-service-account-scopes SCOPE1,SCOPE2,SCOPE3
+                                     Service account scopes for this server
+        --session-timeout Minutes    The timeout for the client for the maximum length of the WinRM session
+        --ssh-gateway GATEWAY        The ssh gateway server. Any proxies configured in your ssh config are automatically used by default.
+        --ssh-gateway-identity IDENTITY_FILE
+                                     The private key for ssh gateway server
+        --ssh-password PASSWORD      The ssh password
+        --ssh-port PORT              The ssh port
+        --ssh-user USERNAME          The ssh username
+        --ssl-peer-fingerprint FINGERPRINT
+                                     ssl Cert Fingerprint to bypass normal cert chain checks
+        --gce-subnet SUBNET          The name of the subnet in the network on which to deploy the instance
+    -T, --gce-tags TAG1,TAG2,TAG3    Tags for this server
+        --template-file TEMPLATE     Full path to location of template to use. [DEPRECATED] Use -t / --bootstrap-template option instead.
+        --gce-use-private-ip         if used, Chef will attempt to bootstrap the device using the private IP; default is disabled (use public IP)
+        --sudo                       Execute the bootstrap via sudo
+        --use-sudo-password          Execute the bootstrap via sudo with password
+    -V, --verbose                    More verbose output. Use twice for max verbosity
+    -v, --version                    Show chef version
+        --winrm-authentication-protocol AUTHENTICATION_PROTOCOL
+                                     The authentication protocol used during WinRM communication. The supported protocols are basic,negotiate,kerberos. Default is 'negotiate'.
+        --winrm-codepage Codepage    The codepage to use for the winrm cmd shell
+    -P, --winrm-password PASSWORD    The WinRM password
+    -p, --winrm-port PORT            The WinRM port, by default this is '5985' for 'plaintext' and '5986' for 'ssl' winrm transport
+        --winrm-shell SHELL          The WinRM shell type. Valid choices are [cmd, powershell, elevated]. 'elevated' runs powershell in a scheduled task
+        --winrm-ssl-verify-mode SSL_VERIFY_MODE
+                                     The WinRM peer verification mode. Valid choices are [verify_peer, verify_none]
+    -t, --winrm-transport TRANSPORT  The WinRM transport type. Valid choices are [ssl, plaintext]
+    -x, --winrm-user USERNAME        The WinRM username
+    -y, --yes                        Say yes to all prompts for confirmation
+    -h, --help                       Show this message

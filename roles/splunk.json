@@ -1,0 +1,20 @@
+{
+  "name": "splunk",
+  "description": "This will take care the responsiblity of installating and configuring the log management tool splunk",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[splunk::server]",
+    "role[dengine_chef]",
+    "role[sensu_client]"
+  ],
+  "env_run_lists": {
+
+  }
+}

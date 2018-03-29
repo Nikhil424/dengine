@@ -1,0 +1,19 @@
+{
+  "name": "sensu",
+  "description": "This role has aresponsibility of installation and configuration of monitoring tool sensu's master",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine_chef]",
+    "recipe[dengine_sensu::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}

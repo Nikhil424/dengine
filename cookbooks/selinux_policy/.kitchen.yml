@@ -1,0 +1,25 @@
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  deprecations_as_errors: true
+
+platforms:
+  - name: centos-6.8
+  - name: centos-7.3
+  - name: fedora-25
+
+
+suites:
+  - name: default
+    run_list:
+      - recipe[selinux_policy_test::setup]
+      - recipe[selinux_policy_test::single_port]
+      - recipe[selinux_policy_test::twice_port]
+      - recipe[selinux_policy_test::range_port]
+      - recipe[selinux_policy_test::bad_port]
+      - recipe[selinux_policy_test::module]
+      - recipe[selinux_policy_test::module_directory]
+      - recipe[selinux_policy_test::fcontext]
+      - recipe[selinux_policy_test::fcontext_filetype]

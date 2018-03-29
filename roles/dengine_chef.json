@@ -1,0 +1,21 @@
+{
+  "name": "dengine_chef",
+  "description": "This role is a base for all servers, as it configures chef-client",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "chef_client": {
+      "interval": 300
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[chef-client::default]",
+    "recipe[chef-client::delete_validation]"
+  ],
+  "env_run_lists": {
+
+  }
+}

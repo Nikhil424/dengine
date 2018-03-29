@@ -1,0 +1,32 @@
+{
+  "name": "tmp_complaince",
+  "description": "This a complete package of chef,splunk,sensu agents where all individual roles are embedded here",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "audit": {
+      "reporter": "json-file",
+      "fetcher" : "/root/webserver.tar.gz"
+      "profiles": [
+        {
+          "name": "linux",
+          "compliance": "base/linux"
+        },
+        {
+          "name": "ssh",
+          "compliance": "base/ssh"
+        }
+      ],
+      "chef_node_attribute_enabled": true
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[audit::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}

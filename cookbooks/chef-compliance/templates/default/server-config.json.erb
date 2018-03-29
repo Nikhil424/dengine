@@ -1,0 +1,28 @@
+{
+  "port": <%= node['chef-compliance']['core']['port'] %>,
+  "host": "<%= node['chef-compliance']['core']['vip'] %>",
+  "colors": false,
+  "detectTimeout": <%= node['chef-compliance']['core']['detect_timeout'] %>,
+  "scanTimeout": <%= node['chef-compliance']['core']['scan_timeout'] %>,
+  "updateTimeout": <%= node['chef-compliance']['core']['update_timeout'] %>,
+  "home": "<%= node['chef-compliance']['core']['directory'] %>/runtime",
+<% if node['chef-compliance']['core']['licensed_node_count'] -%>
+  "licensedNodeCount": <%= node['chef-compliance']['core']['licensed_node_count'] %>,
+<% end -%>
+<% if node['chef-compliance']['core']['log_level'] -%>
+  "logLevel": "<%= node['chef-compliance']['core']['log_level'] %>",
+<% end -%>
+  "db" : {
+    "postgres": {
+      "database": "chef_compliance",
+      "user": "<%= node['chef-compliance']['core']['sql_user'] %>",
+      "password": "<%= node['chef-compliance']['core']['sql_password'] %>",
+      "hostname": "<%= node['chef-compliance']['postgresql']['vip'] %>",
+      "port": <%= node['chef-compliance']['postgresql']['port'] %>
+    }
+  },
+  "setup": {
+    "registration_required": <%= node['chef-compliance']['setup']['registration']['required'] %>,
+    "triggerfile": "<%= node['chef-compliance']['setup']['triggerfile'] %>"
+  }
+}

@@ -1,0 +1,99 @@
+upstream core {
+  server <%= node['chef-compliance']['core']['vip'] %>:<%= node['chef-compliance']['core']['port'] %>;
+}
+
+upstream dex_worker {
+  server <%= node['chef-compliance']['dex-worker']['vip'] %>:<%= node['chef-compliance']['dex-worker']['port'] %>;
+}
+
+<%- if node['chef-compliance']['nginx']['strict_host_header'] %>
+# Reject requests with unknown Host header
+server {
+ listen <%= node['chef-compliance']['nginx']['non_ssl_port'] -%> default_server;
+ server_tokens off;
+ server_name _;
+ return 404;
+}
+<%- end %>
+
+server {
+  listen <%= node['chef-compliance']['nginx']['non_ssl_port'] -%>;
+  server_name <%= @server_names -%>;
+  access_log <%= node['chef-compliance']['nginx']['log_directory'] %>/rewrite-port-80.log;
+
+  add_header "X-UA-Compatible" "IE=Edge";
+
+  return 301 https://$host$request_uri;
+}
+
+server {
+  listen <%= node['chef-compliance']['nginx']['ssl_port'] -%>;
+  server_name <%= @server_names %>;
+
+  ssl on;
+  ssl_certificate <%= node['chef-compliance']['ssl']['certificate'] %>;
+  ssl_certificate_key <%= node['chef-compliance']['ssl']['certificate_key'] %>;
+  ssl_dhparam <%= node['chef-compliance']['ssl']['ssl_dhparam'] %>;
+
+  ssl_session_timeout 5m;
+
+  ssl_protocols <%= node['chef-compliance']['ssl']['protocols'] %>;
+  ssl_ciphers <%= node['chef-compliance']['ssl']['ciphers'] %>;
+  ssl_prefer_server_ciphers on;
+
+  client_max_body_size <%= node['chef-compliance']['nginx']['client_max_body_size'] %>;
+
+  access_log  <%= node['chef-compliance']['nginx']['log_directory'] %>/compliance.access.log;
+  error_log  <%= node['chef-compliance']['nginx']['log_directory'] %>/compliance.error.log;
+
+  add_header "X-UA-Compatible" "IE=Edge";
+
+  proxy_set_header        Host            $host:$server_port;
+  proxy_set_header        X-Real-IP       $remote_addr;
+  proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header        X-Forwarded-Proto https;
+  proxy_pass_request_headers on;
+  proxy_connect_timeout   300;
+  proxy_send_timeout      300;
+  proxy_read_timeout      300;
+
+  location /api/ {
+    proxy_pass http://core/;
+  }
+
+  location /auth {
+    proxy_pass http://dex_worker;
+  }
+
+  location /.well-known {
+    proxy_pass http://dex_worker;
+  }
+
+  location /keys {
+    proxy_pass http://dex_worker;
+  }
+
+  location /token {
+    proxy_pass http://dex_worker;
+  }
+
+  # chef-gate packages
+  location /static/ {
+    autoindex on;
+    alias <%= node['chef-compliance']['install_path'] %>/embedded/service/core/static/;
+  }
+
+  # Include external routes for addons
+  include <%= node['nginx']['dir'] %>/addon.d/*_external.conf;
+
+  location / {
+    satisfy any;
+
+    <% if node['chef-compliance']['nginx']['access_by_lua_file'] %>
+    access_by_lua_file '<%= node['chef-compliance']['nginx']['access_by_lua_file'] %>';
+    <% end %>
+
+    root   <%= node['chef-compliance']['install_path'] %>/embedded/service/ui;
+    index  index.html index.htm;
+  }
+}

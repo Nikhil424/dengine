@@ -1,0 +1,25 @@
+{
+  "name": "sonarqube",
+  "description": "This role is used in all other roles where it has a dependcy as java (like maven installation require java as prerequisite)",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "java": {
+      "jdk_version": 8
+    },
+    "sonarqube": {
+      "version": "6.4"
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[java]",
+    "recipe[sonarqube::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}
+

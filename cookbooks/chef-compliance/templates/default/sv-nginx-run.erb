@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1
+exec <%= node['runit']['chpst_bin'] %> \
+       -P \
+       /opt/chef-compliance/embedded/sbin/nginx \
+       -c <%= node['chef-compliance']['nginx']['directory'] %>/nginx.conf

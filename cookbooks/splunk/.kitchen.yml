@@ -1,0 +1,85 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: 12.3.0
+
+platforms:
+  - name: ubuntu-12.04
+  - name: centos-6.7
+  - name: centos-7.1
+
+suites:
+  - name: base-server
+    driver:
+      vm_hostname: 'splunk-server.local'
+      network:
+        - ["forwarded_port", {guest: 8000, host: 8000, auto_correct: true}]
+    run_list:
+      - recipe[splunk::base_install]
+    attributes:
+  - name: base-server-noroot
+    driver:
+      vm_hostname: 'splunk-server.local'
+      network:
+        - ["forwarded_port", {guest: 8000, host: 8000, auto_correct: true}]
+    run_list:
+      - recipe[splunk::base_install]
+    attributes:
+      splunk:
+        run_as_root: false
+  - name: base-forwarder
+    driver:
+      vm_hostname: 'splunk-forwarder.local'
+    run_list:
+      - recipe[splunk::base_install]
+    attributes:
+      splunk:
+        install_type: 'forwarder'
+  - name: server
+    driver:
+      vm_hostname: 'splunk-server.local'
+      network:
+        - ["private_network", {ip: "192.168.33.10"}]
+        - ["forwarded_port", {guest: 80, host: 8080, auto_correct: true}]
+    run_list:
+      - recipe[splunk::server]
+    attributes:
+  - name: server-noroot
+    driver:
+      vm_hostname: 'splunk-server-noroot.local'
+      network:
+        - ["private_network", {ip: "192.168.33.10"}]
+        - ["forwarded_port", {guest: 8080, host: 8080, auto_correct: true}]
+    run_list:
+      - recipe[splunk::server]
+    attributes:
+      splunk:
+        run_as_root: false
+        web_server_port: '8080'
+  - name: search-head
+    driver:
+      vm_hostname: 'splunk-searchhead.local'
+      network:
+        - ["private_network", {ip: "192.168.33.11"}]
+        - ["forwarded_port", {guest: 80, host: 8080, auto_correct: true}]
+    run_list:
+      - recipe[splunk::server]
+      - role[splunk-server]
+    attributes:
+      splunk:
+        distributed_search: true
+  - name: forwarder
+    driver:
+      vm_hostname: 'splunk-forwarder.local'
+      network:
+        - ["private_network", {ip: "192.168.33.20"}]
+    run_list:
+      - recipe[splunk::forwarder]
+    attributes:
+      splunk:
+        install_type: 'forwarder'
+        forwarding:
+          indexers: ['192.168.33.10']

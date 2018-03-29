@@ -1,0 +1,5 @@
+{
+  "name": "splunk-server",
+  "chef_type": "role",
+  "json_class": "Chef::Role"
+}

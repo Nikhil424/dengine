@@ -1,0 +1,19 @@
+{
+  "name": "test1",
+  "description": "Testing role for test purpose",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine_java]",
+    "recipe[maven]"
+  ],
+  "env_run_lists": {
+
+  }
+}

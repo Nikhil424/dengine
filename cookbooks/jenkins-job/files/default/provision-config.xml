@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ROLE</name>
+          <description>This list is to select the role for the server provisioning through CHEF.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one----</string>
+              <string>jfrog</string>
+              <string>sensu</string>
+              <string>maven</string>
+              <string>jenkins</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENVIRONMENT</name>
+          <description>Here is a list to select the environment in which the server has to be created.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---choose one---</string>
+              <string>development</string>
+              <string>testing</string>
+              <string>acceptance</string>
+              <string>production</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>FLAVOR</name>
+          <description>Here list of the  AWS instance types from which you can select the required.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one----</string>
+              <string>-----------T2------------</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>-----------M4------------</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd /var/lib/jenkins/chef-repo/
+knife create server grow -r $ROLE -w $ENVIRONMENT -f $FLAVOR
+      </command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.6.5">
+      <template>#${ENV,var=&quot;ROLE&quot;}-${ENV,var=&quot;ENVIRONMENT&quot;}-${BUILD_NUMBER}</template>
+      <runAtStart>true</runAtStart>
+      <runAtEnd>true</runAtEnd>
+    </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
+  </buildWrappers>
+</project>

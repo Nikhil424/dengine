@@ -1,0 +1,22 @@
+{
+  "name": "test_jfrog",
+  "description": "This role will take care of installation and configuration of OSS jfrog artifactory",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "java": {
+      "jdk_version": 8
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine_java]",
+    "recipe[unzip::default]",
+    "recipe[jfrog::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}

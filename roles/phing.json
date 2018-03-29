@@ -1,0 +1,21 @@
+{
+  "name": "phing",
+  "description": "This is responsible for installation as configuration of phing build tool for php",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "role[dengine_java]",
+    "recipe[workstation::php]",
+    "recipe[phing]"
+  ],
+  "env_run_lists": {
+
+  }
+}

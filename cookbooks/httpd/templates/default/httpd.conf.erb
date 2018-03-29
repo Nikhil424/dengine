@@ -1,0 +1,68 @@
+<% if @servername %>
+ServerName <%= @servername %>
+<% end %>
+<% if @server_root %>
+ServerRoot <%= @server_root %>
+<% end %>
+<% if @pid_file %>
+PidFile <%= @pid_file %>
+<% end %>
+<% if @run_user %>
+User <%= @run_user %>
+<% end %>
+<% if @run_group %>
+Group <%= @run_group %>
+<% end %>
+<% if @lock_file %>
+LockFile <%= @lock_file %>
+<% end %>
+<% if @mutex %>
+Mutex <%= @mutex %>
+<% end %>
+<% if @config.timeout %>
+Timeout <%= @config.timeout %>
+<% end %>
+<% if @error_log %>
+ErrorLog <%= @error_log %>
+<% end %>
+<% if @config.log_level %>
+LogLevel <%= @config.log_level %>
+<% end %>
+<% if @config.keepalive %>
+KeepAlive On
+<% else %>
+KeepAlive Off
+<% end %>
+<% if @config.maxkeepaliverequests %>
+MaxKeepAliveRequests <%= @config.maxkeepaliverequests %>
+<% end %>
+<% if @config.keepalivetimeout %>
+KeepAliveTimeout <%= @config.keepalivetimeout %>
+<% end %>
+DefaultType None
+<% if @config.hostname_lookups %>
+HostnameLookups <%= @config.hostname_lookups %>
+<% end %>
+
+<% if @config.listen_addresses.nil? %>
+<%   @config.listen_ports.each do |port| %>
+Listen <%= port %>
+<%   end %>
+<% else %>
+<%   Array(@config.listen_addresses).each do |address| %>
+<%     @config.listen_ports.each do |port| %>
+Listen <%= address %>:<%= port %>
+<%     end %>
+<%   end %>
+<% end %>
+
+<% if @includes %>
+<%  @includes.each do |i| %>
+Include <%= i %>
+<%   end %>
+<% end %>
+<% if @include_optionals %>
+<%  @include_optionals.each do |i| %>
+IncludeOptional <%= i %>
+<%   end %>
+<% end %>

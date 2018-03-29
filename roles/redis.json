@@ -1,0 +1,29 @@
+{
+  "name": "redis",
+  "description": "This role is capable of installing and configuring redis server",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "redisio": {
+      "package_install": true,
+      "servers":[{
+        "name" : "master",
+        "port" : "6379",
+        "unixsocket" : "/tmp/redis.sock",
+        "unixsocketperm" : "755"
+    }]
+  }
+},
+  "override_attributes": {
+   
+    
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "recipe[redisio]",
+    "recipe[redisio::enable]"
+  ],
+  "env_run_lists": {
+
+  }
+}

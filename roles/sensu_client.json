@@ -1,0 +1,18 @@
+{
+  "name": "sensu_client",
+  "description": "This will install sensu client in all the server that will be created as part of D-engine",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[sensu_client::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}

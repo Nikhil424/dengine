@@ -1,0 +1,20 @@
+---
+driver:
+  name: vagrant
+  synced_folders:
+    - ['../../../', '/home/vagrant/chef-compliance']
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-14.04
+  - name: ubuntu-12.04
+  - name: centos-7.1
+  - name: centos-6.6
+
+suites:
+  - name: default
+    run_list:
+      - chef-compliance::default
+    attributes:

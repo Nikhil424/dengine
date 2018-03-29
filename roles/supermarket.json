@@ -1,0 +1,23 @@
+{
+  "name": "supermarket",
+  "description": "This will install a seperate chef supermarket for D-engine user where we can manage all the Infra-Codes specific to D-engine",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "supermarket_omnibus": {
+      "chef_server_url": "https://ec2-54-213-74-217.us-west-2.compute.amazonaws.com/organizations/chef",
+      "chef_oauth2_app_id": "ac6b96a38233fba797d370b13760ba8c00b22e340cc29e14297f6a2afcb6dd6a",
+      "chef_oauth2_secret": "5ebe02b3a6390b1c33dc2b787916005831a8369b0e8f12d4db5edd33ef821dbb"
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "recipe[supermarket-omnibus-cookbook::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}

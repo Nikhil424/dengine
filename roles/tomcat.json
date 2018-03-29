@@ -1,0 +1,21 @@
+{
+  "name": "tomcat",
+  "description": "This will take care of installation and configuration of web server apache tomcat",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "role[dengine_java]",
+    "recipe[dengine_tomcat]",
+    "recipe[dengine::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}

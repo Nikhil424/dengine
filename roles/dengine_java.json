@@ -1,0 +1,21 @@
+{
+  "name": "dengine_java",
+  "description": "This role is used in all other roles where it has a dependcy as java (like maven installation require java as prerequisite)",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "java": {
+      "jdk_version": 8
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[java]"
+  ],
+  "env_run_lists": {
+
+  }
+}
+

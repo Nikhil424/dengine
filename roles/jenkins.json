@@ -1,0 +1,33 @@
+{
+  "name": "jenkins",
+  "description": "This role is responsible for installation/configuration/plugins-installation/job-setup/master-slave configuration in jenkins",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "jenkins": {
+      "master": {
+        "install_method": "war",
+        "channel": "stable-1.651",
+        "version": "1.652",
+        "runit": {
+          "sv_timeout": 360
+        }
+      }
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[copy-jenkins::default]",
+    "role[dengine]",
+    "role[cache_clear]",
+    "role[dengine_java]",
+    "role[cache_clear]",
+    "recipe[jenkins-master::workspace]",
+    "recipe[copy-jenkins::remove]"
+  ],
+  "env_run_lists": {
+
+  }
+}

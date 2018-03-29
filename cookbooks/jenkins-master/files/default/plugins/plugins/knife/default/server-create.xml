@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>This job is responsible for creating the machine in the required cloud.</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>CLOUD</name>
+          <description>Select your cloud provider</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---choose---</string>
+              <string>aws</string>
+              <string>azure</string>
+              <string>google</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>APP</name>
+          <description>Please give a name to your application.</description>
+          <defaultValue>dengine</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>NETWORK</name>
+          <description>Place your network in which the machine has to be created.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENVIRONMENT</name>
+          <description>Select an environment where the machine to be created.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>development</string>
+              <string>testing</string>
+              <string>acceptance</string>
+              <string>management</string>
+              <string>production</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>FLAVOR</name>
+          <description>Select the flavor for the machines to be created.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string>
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>ROLE</name>
+          <description>Select the role to create a machine.</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>RESOURCE_GROUP</name>
+          <description>Add your Resource Group to create server if you have selected AZURE as your cloud provider.</description>
+          <defaultValue>Dengine</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd /var/lib/jenkins/chef-repo
+sudo knife dengine server create -a $APP --id ${BUILD_NUMBER} -e $ENVIRONMENT -r $ROLE -f $FLAVOR --cloud $CLOUD --network $NETWORK --resource-group-name $RESOURCE_GROUP</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

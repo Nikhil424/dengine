@@ -1,0 +1,30 @@
+{
+  "name": "dashboard",
+  "description": "This role is to bring up the jenkins dashboard which will be having network create and stack create for D-engine",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "jenkins": {
+      "master": {
+        "install_method": "war",
+        "version": "1.658",
+        "runit": {
+          "sv_timeout": 240
+        }
+      }
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[copy-jenkins::default]",
+    "role[dengine_chef]",
+    "role[dengine_java]",
+    "recipe[provision-dengine-dashboard]",
+    "recipe[copy-jenkins::remove]"
+  ],
+  "env_run_lists": {
+
+  }
+}

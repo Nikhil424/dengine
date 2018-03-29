@@ -1,0 +1,19 @@
+{
+  "name": "web",
+  "description": "This has a responsibility of installing another webserver apache2",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "recipe[webserver::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}

@@ -1,0 +1,17 @@
+<% if @dedicated_search_head == true -%>
+[distributedSearch]
+servers = <%= @search_indexers.collect { |i| i+':8089'}.join(',') %>
+
+[tokenExchKeys]
+certDir = $SPLUNK_HOME/etc/auth/distServerKeys
+publicKey = trusted.pem
+privateKey = private.pem
+
+<% end -%>
+
+<% if @dedicated_indexer == true -%>
+<% @search_heads.sort.each_with_index do |server, index| -%>
+[searchhead:<%= server['splunk']['splunkServerName']%>]
+mounted_bundles = false
+<% end -%>
+<% end -%>

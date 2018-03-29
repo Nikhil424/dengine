@@ -1,0 +1,27 @@
+{
+  "name": "workstation",
+  "description": "This is the role which will keep chef workstation safe and state-less",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    "jenkins": {
+      "master": {
+        "install_method": "war",
+        "version": "1.658",
+        "runit": {
+          "sv_timeout": 240
+        }
+      }
+    }
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine_java]",
+    "recipe[dashboard::default]"
+  ],
+  "env_run_lists": {
+
+  }
+}

@@ -1,0 +1,16 @@
+# Where splunk is installed.
+SPLUNK_HOME=<%= @splunk_home %>
+
+<% if @splunk_db_dir %>
+# Location where we want to store the indexed data.
+SPLUNK_DB=<%= @splunk_db_dir %>
+<% end %>
+
+# Splunkd daemon name
+SPLUNK_SERVER_NAME=splunkd
+
+# Splunkweb daemon name
+SPLUNK_WEB_NAME=splunkweb
+
+# Run Splunk as
+SPLUNK_OS_USER=<%= @splunk_user %>

@@ -1,0 +1,19 @@
+{
+  "name": "dengine_test",
+  "description": "This is a test role of dengine",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+    
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "recipe[dengine]"
+  ],
+  "env_run_lists": {
+
+  }
+}

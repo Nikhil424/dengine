@@ -1,0 +1,8 @@
+#!/bin/sh
+exec 2>&1
+exec chpst \
+       -P \
+       -U <%= node['chef-compliance']['postgresql']['username'] %> \
+       -u <%= node['chef-compliance']['postgresql']['username'] %> \
+       /opt/chef-compliance/embedded/bin/postgres \
+       -D <%= node['chef-compliance']['postgresql']['data_directory'] %>

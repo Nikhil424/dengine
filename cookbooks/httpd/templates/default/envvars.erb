@@ -1,0 +1,14 @@
+unset HOME
+if [ "${APACHE_CONFDIR##/etc/apache2-}" != "${APACHE_CONFDIR}" ] ; then
+	SUFFIX="-${APACHE_CONFDIR##/etc/apache2-}"
+else
+	SUFFIX=
+fi
+export APACHE_RUN_USER=<%= @run_user %>
+export APACHE_RUN_GROUP=<%= @run_group %>
+export APACHE_PID_FILE=<%= @pid_file %>
+export APACHE_RUN_DIR=<%= @run_dir %>
+export APACHE_LOCK_DIR=<%= @lock_dir %>
+export APACHE_LOG_DIR=<%= @log_dir %>
+export LANG=C
+export LANG

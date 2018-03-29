@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>This will create/provision machines on bare metal with Openstack on top of it.</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ROLE</name>
+          <description>Select the role to configure your machine.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---choice---</string>
+              <string>java</string>
+              <string>jenkins</string>
+              <string>jfrog</string>
+              <string>maven</string>
+              <string>phing</string>
+              <string>php</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>FLAVOR</name>
+          <description>Select the flavor of the machine that has to be created.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---choice---</string>
+              <string>m1.small</string>
+              <string>m1.medium</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENVIRONMENT</name>
+          <description>Select the environment in which the machine has to be configured.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---choice---</string>
+              <string>development</string>
+              <string>testing</string>
+              <string>acceptance</string>
+              <string>PRODUCTION</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd /var/lib/jenkins/chef-repo/
+knife dengine openstack server create -e $ENVIRONMENT -r $ROLE -f $FLAVOR</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

@@ -1,0 +1,149 @@
+{
+  "revision_id": "249953e25f31d7d4edbebb4715b3c50550533f1d6e685230bc369f4feb93e616",
+  "name": "test_policy",
+  "run_list": [
+    "recipe[dengine::default]"
+  ],
+  "cookbook_locks": {
+    "dengine": {
+      "version": "0.1.2",
+      "identifier": "fc1bd978bcd75dba835be0378e189336126d2ce7",
+      "dotted_decimal_identifier": "70962314978580317.52498776295181848.161860446661863",
+      "source": "cookbooks/dengine",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@bitbucket.org:devopsiac/chef-repo.git",
+        "revision": "711a6dc44bdce78ca06dd893e409cc583f8b2af0",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "cookbooks/dengine"
+      }
+    },
+    "dengine_tomcat": {
+      "version": "0.13.0",
+      "identifier": "e63c740e8ab589797b6ed703f44f4350a6e085e7",
+      "dotted_decimal_identifier": "64805713801295241.34194188165968975.74013676176871",
+      "source": "cookbooks/dengine_tomcat",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@bitbucket.org:devopsiac/chef-repo.git",
+        "revision": "711a6dc44bdce78ca06dd893e409cc583f8b2af0",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "cookbooks/dengine_tomcat"
+      }
+    },
+    "tomcat": {
+      "version": "2.4.0",
+      "identifier": "78bb0195d57160ecdf8dbcd5a141409a0b4c77a7",
+      "dotted_decimal_identifier": "33982612688433504.66673894355214657.71030358701991",
+      "source": "cookbooks/tomcat",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@bitbucket.org:devopsiac/chef-repo.git",
+        "revision": "711a6dc44bdce78ca06dd893e409cc583f8b2af0",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "cookbooks/tomcat"
+      }
+    },
+    "compat_resource": {
+      "version": "12.16.3",
+      "identifier": "ee0005d802b7faad3584425961e9937962c8d65e",
+      "dotted_decimal_identifier": "66991069556029434.48754013136052713.162149557655134",
+      "source": "cookbooks/compat_resource",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@bitbucket.org:devopsiac/chef-repo.git",
+        "revision": "711a6dc44bdce78ca06dd893e409cc583f8b2af0",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "cookbooks/compat_resource"
+      }
+    }
+  },
+  "default_attributes": {
+    "dengine": {
+      "artifact": {
+        "version": "0.0",
+        "rollversion": "0.0",
+        "name": "gameoflife-web",
+        "deployment": "false"
+      }
+    }
+  },
+  "override_attributes": {
+
+  },
+  "solution_dependencies": {
+    "Policyfile": [
+      [
+        "dengine",
+        "= 0.1.2"
+      ],
+      [
+        "dengine_tomcat",
+        "= 0.13.0"
+      ],
+      [
+        "tomcat",
+        "= 2.4.0"
+      ],
+      [
+        "compat_resource",
+        "= 12.16.3"
+      ]
+    ],
+    "dependencies": {
+      "dengine (0.1.2)": [
+        [
+          "dengine_tomcat",
+          ">= 0.0.0"
+        ]
+      ],
+      "dengine_tomcat (0.13.0)": [
+        [
+          "tomcat",
+          ">= 0.0.0"
+        ]
+      ],
+      "tomcat (2.4.0)": [
+        [
+          "compat_resource",
+          ">= 12.16.0"
+        ]
+      ],
+      "compat_resource (12.16.3)": [
+
+      ]
+    }
+  }
+}

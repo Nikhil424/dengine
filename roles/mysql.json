@@ -1,0 +1,19 @@
+{
+  "name": "mysql",
+  "description": "This role will install anf configure mysql",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "recipe[mysqld]"
+  ],
+  "env_run_lists": {
+
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "splunk-indexer",
+  "chef_type": "role",
+  "json_class": "Chef::Role"
+}

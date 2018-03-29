@@ -1,0 +1,20 @@
+{
+  "name": "maven",
+  "description": "This is responsible for installation as configuration of maven",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "role[dengine_java]",
+    "recipe[maven]"
+  ],
+  "env_run_lists": {
+
+  }
+}

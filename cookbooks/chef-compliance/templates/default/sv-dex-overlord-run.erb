@@ -1,0 +1,8 @@
+#!/bin/sh
+exec 2>&1
+exec <%= node['runit']['chpst_bin'] %> \
+  -e <%= node['chef-compliance']['dex-overlord']['env_directory'] %> \
+  -u <%= node['chef-compliance']['dex-overlord']['user'] %> \
+  -U <%= node['chef-compliance']['dex-overlord']['group'] %> \
+  -P \
+  /opt/chef-compliance/embedded/service/dex/bin/dex-overlord

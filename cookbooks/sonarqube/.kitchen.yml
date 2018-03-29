@@ -1,0 +1,32 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-12.04
+  - name: centos-6.4
+
+suites:
+  - name: sonarqube_server
+    run_list:
+      - recipe[apt]
+      - recipe[java]
+      - recipe[sonarqube]
+    attributes:
+      java:
+        jdk_version: '7'
+  - name: sonarqube_scanner
+    run_list:
+      - recipe[sonarqube::scanner]
+  - name: sonarqube_plugin
+    run_list:
+      - recipe[apt]
+      - recipe[java]
+      - recipe[sonarqube]
+      - recipe[sonarqube_plugin_consumer]
+    attributes:
+      java:
+        jdk_version: '7'

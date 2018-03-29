@@ -1,0 +1,80 @@
+driver:
+  name: vagrant
+  customize:
+    memory: 2048
+    cpus: 2
+
+provisioner:
+  require_chef_omnibus: <%= ENV['CHEF_VERSION'] || true %>
+  name: chef_zero
+  data_bags_path: test/fixtures/data_bags
+  deprecations_as_errors: true
+  retry_on_exit_code:
+    - 213
+  max_retries: 1
+  wait_for_retry: 1
+  client_rb:
+    exit_status: :enabled
+    client_fork: false
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-6.8
+  - name: centos-7.3
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
+  - name: macosx-10.11
+    driver:
+      box: chef/macosx-10.11 # private
+  - name: windows-server-2012r2-standard
+    driver:
+      box: chef/windows-server-2012r2-standard # private
+      customize:
+        cpus: 4
+
+default: &default
+  attributes:
+    chef-ingredient:
+      mixlib-install:
+        # Set to install mixlib-install from source
+        git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
+
+suites:
+  - name: default
+    <<: *default
+    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
+    run_list:
+      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      - recipe[test::install_git]
+      <% end %>
+      - recipe[test]
+      - recipe[test::repo]
+
+  - name: local_package_install
+    <<: *default
+    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
+    run_list:
+      - recipe[test]
+      - recipe[test::local]
+
+  - name: chefdk
+    <<: *default
+    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6.8', 'centos-7.3', 'macosx-10.11', 'windows-server-2012r2-standard' ]
+    run_list:
+      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      - recipe[test::install_git]
+      <% end %>
+      - recipe[test]
+      - recipe[test::chefdk]
+
+  - name: inspec
+    <<: *default
+    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6.8', 'centos-7.3', 'macosx-10.11', 'windows-server-2012r2-standard' ]
+    run_list:
+      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      - recipe[test::install_git]
+      <% end %>
+      - recipe[test]
+      - recipe[test::inspec]

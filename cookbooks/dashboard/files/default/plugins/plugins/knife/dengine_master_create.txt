@@ -1,0 +1,413 @@
+require 'chef/knife'
+require "#{File.dirname(__FILE__)}/base/dengine_master_base"
+
+module Engine
+  class DengineMasterCreate < Chef::Knife
+
+   include DengineMasterBase
+
+    deps do
+      require 'chef/search/query'
+      require "#{File.dirname(__FILE__)}/dengine_load_balancer_create"
+      Engine::DengineLoadBalancerCreate.load_deps
+      require "#{File.dirname(__FILE__)}/dengine_add_instance_loadbalancer"
+      Engine::DengineAddInstanceLoadbalancer.load_deps
+      require "#{File.dirname(__FILE__)}/dengine_server_create"
+      Engine::DengineServerCreate.load_deps
+      require "#{File.dirname(__FILE__)}/dengine_add_instance_loadbalancer"
+      Engine::DengineAddInstanceLoadbalancer.load_deps
+    end
+
+    banner 'knife dengine master create (options)'
+
+    option :cloud,
+        :long => '--cloud CLOUD_PROVIDER_NAME',
+        :description => "The name of the cloud provider for ex: aws, azure, google, openstack etc"
+
+    option :resource_group,
+        :long => '--resource-group-name RESOURCE_GROUP_NAME',
+        :description => "The name of Resource group in which the network that has to be created",
+        :default => "Dengine"
+
+    option :app,
+        :long => '--app APP_NAME',
+        :description => "The name of the application for which the environment is being setup",
+        :default => "java"
+
+    option :build,
+        :short => '-b BUILD_TOOL',
+        :long => '--build BUILD_TOOL',
+        :description => "The build tool required for the environment like MAVEN, GRADDLE etc.",
+        :default => "maven"
+
+    option :artifact,
+        :short => '-a ARTIFACT_TOOL',
+        :long => '--artifact ARTIFACT_TOOL',
+        :description => "The artifactory tool required for the environment like JFROG, NEXUS etc.",
+        :default => "jfrog"
+
+    option :ci,
+        :short => '-i CI_SERVER',
+        :long => '--ci CI_SERVER',
+        :description => "The CI tool required for the environment like JENKINS, BAMBOO, TEAMCITY etc.",
+        :default => "jenkins"
+
+    option :monitoring,
+        :short => '-m MONITORING_SERVER',
+        :long => '--monitoring MONITORING_SERVER',
+        :description => "The monitoring tool which helps to moniter the machines in the environment, for example SENSU, DATADOG etc.",
+        :default => "sensu"
+
+    option :log_management,
+        :short => '-l LOG_MANAGEMENT_SERVER',
+        :long => '--log_management LOG_MANAGEMENT_SERVER',
+        :description => "The tool required to manage the log of the servers in the environment. For example SPLUNK etc.",
+        :default => "splunk"
+
+    option :database,
+        :short => '-d DATABASE',
+        :long => '--database DATABASE',
+        :description => "The database tool required for the environment.",
+        :default => "mysql"
+
+    option :webserver,
+        :short => '-w WEBSERVER',
+        :long => '--webserver WEBSERVER',
+        :description => "The webserver required for the environment for example TOMCAT, APACHE2 etc.",
+        :default => "tomcat"
+
+    option :dev_db_tr,
+        :long => '--dev_db_tr DEV_DB_FLAVOR',
+        :description => "The flavor of server. The hardware capacities of the machine.",
+        :default => "t2.micro"
+
+    option :dev_wb_tr,
+        :long => '--dev_wb_tr UAT_WB_FLAVOR',
+        :description => "The flavor of server. The hardware capacities of the machine.",
+        :default => "t2.micro"
+
+    option :tst_db_tr,
+        :long => '--tst_db_tr DEV_DB_FLAVOR',
+        :description => "The flavor of server. The hardware capacities of the machine.",
+        :default => "t2.micro"
+
+    option :tst_wb_tr,
+        :long => '--tst_wb_tr UAT_WB_FLAVOR',
+        :description => "The flavor of server. The hardware capacities of the machine.",
+        :default => "t2.micro"
+
+    option :uat_db_tr,
+        :long => '--uat_db_tr UAT_DB_FLAVOR',
+        :description => "The flavor of server. The hardware capacities of the machine.",
+        :default => "t2.micro"
+
+    option :uat_wb_tr,
+        :long => '--uat_wb_tr UAT_WB_FLAVOR',
+        :description => "The flavor of server. The hardware capacities of the machine.",
+        :default => "t2.micro"
+
+    option :uat_wb_no,
+        :long => '--uat_wb_no UAT_WB_SERVER_NUMBER',
+        :description => "The number of servers that has to be created under the role web for UAT environment.",
+        :default => 1
+
+    option :prod_db_tr,
+        :long => '--prod_db_tr PROD_DB_FLAVOR',
+        :description => "The flavor of server. The hardware capacities of the machine.",
+        :default => "t2.micro"
+
+    option :prod_wb_tr,
+        :long => '--prod_wb_tr PROD_WB_FLAVOR',
+        :description => "The flavor of server. The hardware capacities of the machine.",
+        :default => "t2.micro"
+
+    option :prod_wb_no,
+        :long => '--prod_wb_no PROD_WB_SERVER_NUMBER',
+        :description => "The number of servers that has to be created under the role web for PROD environment.",
+        :default => 1
+
+#    option :lb_name,
+#        :long => '--lb-name LOAD_BALANCE_NAME',
+#        :description => "The name of the load balancer by which the load balancer has to be created (This is exclusively for azure)."
+
+    option :storage_account,
+        :long => '--storage-account STORAGE_ACCOUNT',
+        :description => "The name of the storage account in which the VMs has to be created (This is exclusively for azure)."
+
+    def run
+
+      create_application_data_bag(app)
+
+      if config[:cloud] == "google"
+        puts "#{ui.color('we are in alfa, soon we will be here', :cyan)}"
+        ui.warn("we are in alfa, certain resources cannot be created in the cloud provider you chose do you want to continue? ")
+        exit
+      elsif config[:cloud] == "openstack"
+        puts "#{ui.color('we are in alfa, soon we will be here', :cyan)}"
+        exit
+        @client = ''
+	  elsif (config[:cloud].nil?)
+        puts ""
+        puts "#{ui.color('We are creating the stack that you selected, set back and relax', :cyan)}"
+        puts ""
+        create_stack
+        puts "#{ui.color('The stack creation is complete', :cyan)}"
+        puts "#{ui.color('Thankyou for using me refer the dashboard for more info', :cyan)}"
+	  end
+
+    end
+
+    def create_stack
+
+      puts "#{ui.color('The stack creation was initiated', :cyan)}"
+      puts ""
+
+#-----------------------creation-of-load_balancers-uat-----------------------
+ # creating load_balancers
+      if value_uat > 1
+        if config[:cloud] == "aws"
+         @elbu = create_lb(app,"#{app}-#{uat_env}-elb",uat_network,webserver,"network","")
+        elsif config[:cloud] == "azure"
+         @elbu = create_lb(app,"#{app}-#{uat_env}-elb",uat_network,webserver,"network","#{config[:resource_group]}")
+        end
+      else
+        puts "#{ui.color('Not creating load balancer for UAT as it was not opted', :cyan)}"
+      end
+
+#-----------------------creation-of-load_balancers-prod----------------------
+ # creating load_balancers
+      if value_prod > 1
+        if config[:cloud] == "aws"
+        @elbp = create_lb(app,"#{app}-#{prod_env}-elb",prod_network,webserver,"network","")
+        elsif config[:cloud] == "azure"
+        @elbp = create_lb(app,"#{app}-#{prod_env}-elb",prod_network,webserver,"network","#{config[:resource_group]}")
+        end
+      else
+        puts "#{ui.color('Not creating load balancer for Production as it was not opted', :cyan)}"
+      end
+
+      puts ""
+      puts "#{ui.color('The stack creation is in progress', :cyan)}"
+      puts ""
+
+#---------------------------management-servers-------------------------------
+
+      mngt_servers = Thread.new{create_mngt_servers(app,mngt_network,mngt_env,mngt_flavor)}
+
+#------------------------------dev-servers-----------------------------------
+
+      dev_servers = Thread.new{create_dev_server(app,uat_network,uat_env)}
+
+#------------------------------test-servers-----------------------------------
+
+      test_servers = Thread.new{create_test_server(app,uat_network,uat_env)}
+
+#------------------------------uat-servers-----------------------------------
+
+      uat_servers = Thread.new{create_uat_server(app,value_uat,uat_network,uat_env)}
+
+#----------------------------prod-servers------------------------------------
+
+      prod_servers = Thread.new{create_prod_server(app,value_prod,prod_network,prod_env)}
+
+      dev_servers.join
+      test_servers.join
+      uat_servers.join
+      prod_servers.join
+      mngt_servers.join
+
+      puts ""
+      puts "#{ui.color('The stack creation is complete', :cyan)}"
+      puts ""
+
+    end
+
+    def create_machine(app,network,env,role,flavor,id,lb_name)
+
+      server_create = Engine::DengineServerCreate.new
+      server_create.config[:app]            = app
+      server_create.config[:id]             = id
+      server_create.config[:environment]    = env
+      server_create.config[:role]           = role
+      server_create.config[:flavor]         = flavor
+      server_create.config[:network]        = network
+      server_create.config[:cloud]          = config[:cloud]
+      server_create.config[:lb_name]        = lb_name unless lb_name.nil?
+      server_create.config[:resource_group] = config[:resource_group] unless config[:resource_group].nil?
+      server_create.config[:storage_account]= config[:storage_account] unless config[:storage_account].nil?
+
+      name = server_create.run
+      return name
+
+    end
+
+#-----------------------------load balancer creation---------------------------
+
+    def create_lb(app,elb_name,network,webserver,resource_group)
+
+      elb_create = Engine::DengineLoadBalancerCreate .new
+      elb_create.config[:app]                 = app
+      elb_create.config[:name]                = elb_name
+      elb_create.config[:network]             = network
+      if webserver == 'tomcat'
+        elb_create.config[:ping_path]  = "HTTP:8080/index.html"
+      elsif
+        elb_create.config[:ping_path]  = "HTTP:80/index.html"
+      end
+      elb_create.config[:listener_protocol]   = "HTTP"
+      elb_create.config[:cloud]               = config[:cloud]
+      elb_create.config[:ping_path]           = ping_path unless ping_path.nil?
+      elb_create.config[:resource_group]      = resource_group unless resource_group.nil?
+
+      elb = elb_create.run
+      return elb
+
+    end
+
+#------adding servers to load balancers(exclusively for aws)--------
+
+    def add_instance(elb_name,instance_id)
+
+      instance_add = Engine::DengineAddInstanceLoadbalancer.new
+      instance_add.config[:elb_name]    = elb_name
+      instance_add.config[:instance_id] = instance_id
+      instance_add.config[:type]        = "network"
+      instance_add.config[:cloud]       = config[:cloud]
+
+      instance_add.run
+
+    end
+
+#---------------------------------------------------------------
+
+    def create_mngt_servers(app,mngt_network,mngt_env,mngt_flavor)
+
+      #---the "" indicates that no load balancer name is being passed----
+      id = 0
+      moni_node  = Thread.new{create_machine(app,mngt_network,mngt_env,config[:monitering],config[:mngt_flavor],id,"")}
+      build_node = Thread.new{create_machine(app,mngt_network,mngt_env,config[:build],config[:mngt_flavor],id,"")}
+      arti_node  = Thread.new{create_machine(app,mngt_network,mngt_env,config[:artifact],config[:mngt_flavor],id,"")}
+      ci_node    = Thread.new{create_machine(app,mngt_network,mngt_env,config[:ci],config[:mngt_flavor],id,"")}
+      logm_node  = Thread.new{create_machine(app,mngt_network,mngt_env,config[:log_node],config[:mngt_flavor],id,"")}
+
+      moni_node.join
+      build_node.join
+      arti_node.join
+      ci_node.join
+      logm_node.join
+
+      return moni_node.value,build_node.value,arti_node.value,ci_node.value,logm_node.value
+
+    end
+
+    def create_uat_server(app,value_uat,uat_network,uat_env)
+     # provisioning Database machine for uat environment
+      id = 0
+      udb = Thread.new{create_machine(app,uat_network,uat_env,config[:database],config[:uat_db_tr],id,"")}
+
+      #------------mechanism to create instance and add it into load balancer UAT--------
+      if value_uat > 1
+
+        node_uat = []
+        value_uat.times do |n|
+        node_uat[n] =  Thread.new{create_machine(app,uat_network,uat_env,config[:webserver],config[:uat_wb_tr],"#{n}",@elbu)}
+        end
+
+        u = value_uat-1
+        uat = []
+        node_uat.each {|i|
+                       i.join;
+                       uat[u] = i.value;
+                       u -=1;
+                       instance_id_uat = fetch_instance_id(i.value);
+                       add_instance(@elbu,instance_id_uat)
+        }
+
+      else
+
+      uwb = Thread.new{create_machine(app,uat_network,uat_env,config[:webserver],config[:uat_wb_tr],id,"")}
+      uwb.join
+
+      end
+
+      udb.join
+
+      if value_uat > 1
+        return uat,udb.value
+      else
+        return uwb.value,udb.value
+      end
+
+    end
+
+    def create_prod_server(app,value_prod,prod_network,prod_env)
+    # provisioning Database machine for production environment
+      id = 0
+      pdb = Thread.new{create_machine(app,prod_network,prod_env,config[:database],config[:prod_db_tr],id,"")}
+
+      #------------mechanism to create instance for web and add it into load balancer PROD--------
+      if value_prod > 1
+
+        node_prod = []
+        value_prod.times do |n|
+        node_prod[n] =  Thread.new{create_machine(app,prod_network,prod_env,config[:webserver],config[:prod_wb_tr],"#{n}",@elbp)}
+        end
+
+        u = value_prod-1
+        prod = []
+        node_prod.each {|i|
+                        i.join;
+                        prod[u] = i.value;
+                        u -=1;
+                        instance_id_prod = fetch_instance_id(i.value);
+                        add_instance(@elbp,instance_id_prod)
+        }
+
+      else
+
+      pwb = Thread.new{create_machine(app,prod_network,prod_env,config[:webserver],config[:prod_wb_tr],id,"")}
+      pwb.join
+
+      end
+
+      pdb.join
+      if value_prod > 1
+        return prod,pdb.value
+      else
+        return pwb.value,pdb.value
+      end
+
+    end
+
+    def create_dev_server(app,uat_network,uat_env)
+
+      id = 0
+      # provisioning Database machine for development environment
+      ddb = Thread.new{create_machine(app,uat_network,uat_env,config[:database],config[:dev_db_tr],id,"")}
+
+      # mechanism to create instance for web in development environment
+      dwb = Thread.new{create_machine(app,uat_network,uat_env,config[:webserver],config[:dev_wb_tr],id,"")}
+
+      ddb.join
+      dwb.join
+      return dwb.value,ddb.value
+
+    end
+
+    def create_test_server(app,uat_network,uat_env)
+
+      id = 0
+      # provisioning Database machine for testing environment
+      tdb = Thread.new{create_machine(app,uat_network,uat_env,config[:database],config[:tst_db_tr],id,"")}
+
+      # mechanism to create instance for web in testing environment
+      twb = Thread.new{create_machine(app,uat_network,uat_env,config[:webserver],config[:tst_wb_tr],id,"")}
+
+      tdb.join
+      twb.join
+      return twb.value,tdb.value
+
+    end
+    
+  end
+end

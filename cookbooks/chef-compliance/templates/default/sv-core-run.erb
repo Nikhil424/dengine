@@ -1,0 +1,8 @@
+#!/bin/sh
+exec 2>&1
+exec <%= node['runit']['chpst_bin'] %> \
+  -e <%= node['chef-compliance']['core']['env_directory'] %> \
+  -u <%= node['chef-compliance']['user']['name'] %> \
+  -U <%= node['chef-compliance']['user']['name'] %> \
+  -P \
+  /opt/chef-compliance/embedded/service/core/bin/core run --mode=<%= node['chef-compliance']['core']['mode'] %> --oidc --oidc-issuer-url https://<%= Compliance.fqdn %> --oidc-client-id <%= Compliance.core.oidc_client_id %> --oidc-redirect-url https://<%= Compliance.fqdn %>/api/callback

@@ -1,0 +1,22 @@
+{
+  "name": "elasticsearch",
+  "description": "This role is capable of installing and configuring elasticsearch",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+},
+  "override_attributes": {
+   
+    
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[dengine]",
+    "recipe[cache-clear::default]",
+    "role[dengine_java]",
+    "recipe[cache-clear::default]",
+    "recipe[elasticsearch]"
+  ],
+  "env_run_lists": {
+
+  }
+}

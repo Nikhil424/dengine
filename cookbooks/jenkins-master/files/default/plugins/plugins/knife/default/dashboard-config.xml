@@ -1,0 +1,711 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>CLOUD</name>
+          <description>select your cloud provider</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---select-cloud---</string>
+              <string>aws</string>
+              <string>azure</string>
+              <string>google</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>APP</name>
+            <description>give your application a name</description>
+          <defaultValue/>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>BUILD</name>
+          <description>select your build tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---select-BUILD---</string>
+              <string>maven</string>
+              <string>gradle</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ARTIFACT</name>
+          <description>select your artifact tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>select-ARTIFACT</string>
+              <string>jfrog</string>
+              <string>nexus</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>CI</name>
+          <description>select your CI tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>------select-CI------</string>
+              <string>jenkins</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>MONITORING</name>
+          <description>select your monitoring tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>select-MONITORING</string>
+              <string>sensu</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>LOGSERVER</name>
+          <description>select your log-management tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>select-LOG_MANAGEMENT</string>
+              <string>splunk</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>IN_MEMORY_DATABASE</name>
+          <description>select your in memory database tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>select-IN-MEMORY</string>
+              <string>redis</string>
+              <string>memcache</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>SEARCH_ENGINE</name>
+          <description>select your search engine tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>select-SEARCH-ENGINE</string>
+              <string>elasticsearch</string>
+              <string>solar</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>DATABASE</name>
+          <description>select your database tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>select-DATABASE</string>
+              <string>mysql</string>
+              <string>oracle</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>WEBSERVER</name>
+          <description>select your webserver tool</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>select-WEBSERVER</string>
+              <string>web</string>
+              <string>tomcat</string>
+              <string>apache</string>
+              <string>nginx</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>mngt_servers</name>
+          <description>management server configuration</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>dev_database</name>
+          <description>database_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>dev_web_server</name>
+          <description>webserver_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>tst_database</name>
+          <description>database_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>tst_web_server</name>
+          <description>webserver_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>uat_in_memory_database</name>
+          <description>in_memory_database_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>uat_search_engine</name>
+          <description>search_engine_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>uat_database</name>
+          <description>database_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>uat_web_server</name>
+          <description>webserver_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+               <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>no_of_web_machine_uat</name>
+          <description>Enter the number of machines to be created for web</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---select number---</string>
+              <string>1</string>
+              <string>2</string>
+              <string>3</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>prod_in_memory_database</name>
+          <description>in_memory_database_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>prod_search_engine</name>
+          <description>search_engine_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>prod_database</name>
+          <description>database_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>prod_web_server</name>
+          <description>webserver_flavour</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>----choose one-----</string>
+              <string>---aws-flavours---</string>
+              <string>---T2---</string>
+              <string>t2.nano</string>
+              <string>t2.micro</string>
+              <string>t2.small</string>
+              <string>t2.medium</string>
+              <string>t2.large</string>
+              <string>t2.xlarge</string>
+              <string>t2.2xlarge</string>
+              <string>---M4---</string>
+              <string>m4.large</string>
+              <string>m4.xlarge</string>
+              <string>m4.2xlarge</string>
+              <string>m4.4xlarge</string>
+              <string>m4.10xlarge</string>
+              <string>m4.16xlarge</string>
+              <string>--azure-flavours--</string>
+              <string>ExtraSmall</string>
+              <string>Small</string>
+              <string>Medium</string>
+              <string>Large</string>
+              <string>ExtraLarge</string>
+              <string>-google-flavours-</string>
+              <string>----standard----</string>
+              <string>n1-standard-1</string>
+              <string>n1-standard-2</string>
+              <string>n1-standard-4</string> 
+              <string>n1-standard-8</string>
+              <string>n1-standard-16</string>
+              <string>----basic----</string>
+              <string>f1-micro</string>
+              <string>g1-small</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>no_of_web_machine_prod</name>
+          <description>Enter the number of machines to be created for web</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>---select number---</string>
+              <string>1</string>
+              <string>2</string>
+              <string>3</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>STORAGE_ACCOUNT</name>
+            <description>Enter your storage account name (This is exclusively for azure)</description>
+          <defaultValue/>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>RESOURCE_GROUP</name>
+            <description>Enter your resource group name (This is exclusively for azure)</description>
+          <defaultValue/>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+     <command>
+cd /var/lib/jenkins/chef-repo/
+sudo knife dengine master create --cloud $CLOUD --app $APP -b $BUILD -a $ARTIFACT -i $CI -m $MONITORING -l $LOGSERVER --in_memory_db $IN_MEMORY_DATABASE --search_engine $SEARCH_ENGINE -d $DATABASE -w $WEBSERVER --dev_db_tr $dev_database --dev_wb_tr $dev_web_server --tst_db_tr $tst_database --tst_wb_tr $tst_web_server --uat_db_tr $uat_database --uat_wb_tr $uat_web_server --uat_wb_no $no_of_web_machine_uat --prod_db_tr $prod_database --prod_wb_tr $prod_web_server --prod_wb_no $no_of_web_machine_prod --uat_in_db_tr $uat_in_memory_database --uat_search_tr $uat_search_engine --prod_in_db_tr $prod_in_memory_database --prod_search_tr $prod_search_engine --storage-account $STORAGE_ACCOUNT --resource-group-name $RESOURCE_GROUP --mngt-server-flavour $mngt_servers
+     </command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
